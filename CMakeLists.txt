@@ -3,6 +3,8 @@ set(PSZ_BACKEND "CUDA" CACHE STRING "Select the desired backend: CUDA/cuda, HIP/
 
 if(PSZ_BACKEND STREQUAL "CUDA" OR PSZ_BACKEND STREQUAL "cuda")
   cmake_minimum_required(VERSION 3.18)
+  include(cmake/cuda_architectures.cmake)
+  psz_sanitize_cuda_architectures()
   project(CUSZ LANGUAGES CUDA CXX C VERSION 0.6.0)
 elseif(PSZ_BACKEND STREQUAL "HIP" OR PSZ_BACKEND STREQUAL "hip")
   cmake_minimum_required(VERSION 3.21)
