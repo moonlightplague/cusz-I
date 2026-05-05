@@ -78,6 +78,30 @@ In addition, for the full context, the basic framework is covered in (PACT '20: 
 
 If you found the whole pipeline is important, please kindly cite using `\cite{tian2020cusz,tian2021cuszplus,liu_tian_wu2024cuszi}` (for three papers) and the BibTeX entries below (or standalone [`.bib` file](doc/cite-cuszi.bib)).
 
+
+<b>To build cuSZ-I (cuSZ)</b>
+
+```bash
+# Example architectures (";" to separate multiple SM versions)
+# "80" <- A100; "86" <- A4000; RTX 30 series
+# Please also refer to https://github.com/szcompressor/cuSZ/wiki/Build-and-Install for more detailed SM version listing
+# Install to [/path/to/install/dir]
+
+git clone https://github.com/Meso272/cusz-I.git cusz-interp
+cd cusz-interp && mkdir build && cd build
+
+cmake .. \
+    -DPSZ_BACKEND=cuda \
+    -DPSZ_BUILD_EXAMPLES=on \
+    -DCMAKE_CUDA_ARCHITECTURES="70;80;86" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_COLOR_DIAGNOSTICS=on \
+#    -DCMAKE_INSTALL_PREFIX=[/path/to/install/dir]
+make -j
+# make install # uncomment `-DCMAKE_INSTALL_PREFIX=...` to install to system PATH
+# `ctest` to perform testing
+```
+
 <br>
 
 ```bibtex
