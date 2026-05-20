@@ -22,6 +22,38 @@ This repository is a fork of pSZ/cuSZ for development and is a part of the resea
 - To reproduce the results of our [SC '24 paper](https://arxiv.org/abs/2312.05492), please refer to the repository of [artifacts](https://github.com/jtian0/24_SC_artifacts).
 - Please also refer to pSZ/cuSZ's [main repository](https://github.com/szcompressor/cuSZ) for more information.
 
+## Build
+
+This repository builds with CMake. The default backend is CUDA; HIP and oneAPI
+backends are also present in CMake, but require their respective compiler
+toolchains.
+
+The CUDA build requires CMake 3.18 or newer, a C++17 compiler, and the CUDA
+Toolkit. Build with a CUDA architecture of `60` or newer because the spline
+kernel uses double-precision `atomicAdd`, which is unavailable for older CUDA
+SM targets.
+
+```bash
+cmake -S . -B build \
+  -DPSZ_BACKEND=CUDA \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_CUDA_ARCHITECTURES=60 \
+  -DBUILD_TESTING=OFF \
+  -DPSZ_BUILD_EXAMPLES=OFF
+cmake --build build --parallel
+```
+
+The CLI executable is generated at `build/cuszi`.
+
+To build for a specific GPU, replace `60` with the target architecture, for
+example `70`, `80`, or `90`.
+
+Optional install:
+
+```bash
+cmake --install build --prefix /path/to/install
+```
+
 <details>
 <summary>
 Here is a chart to compare cuSZ-<i>i</i> with the basic framework (cuSZ) and its other variants. (Click to expand.)
